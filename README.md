@@ -18,3 +18,13 @@
 ```bash
    $ conda activate mini-rag-app
 ```
+## Installation
+
+## Install required packages  
+```bash
+   $ pip install -r requirements 
+```
+## Setup environments variables       
+```bash
+   $ cp .env.example .env 
+```
