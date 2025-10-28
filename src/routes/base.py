@@ -13,3 +13,4 @@ async def read_root(app_setting: Settings = Depends(get_settings)):
     app_version= app_setting.APP_VERSION
     
     return {"app_name": app_name, "app_version": app_version}
+

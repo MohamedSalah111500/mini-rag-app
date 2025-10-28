@@ -1,0 +1,18 @@
+
+from .BaseController import BaseController
+from fastapi import UploadFile
+from models import ResponseType
+import os
+
+class ProjectController(BaseController):
+    def __init__(self):
+        super().__init__()
+        
+        self.size_scale = 1048576 # convert to 1MB 
+    def get_project_path(self,project_id: str):
+        project_dir = os.path.join(self.files_dir,project_id)
+        
+        if(not os.path.exists(project_dir)):
+            os.mkdir(project_dir)
+            
+        return project_dir
