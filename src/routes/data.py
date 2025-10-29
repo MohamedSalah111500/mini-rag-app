@@ -66,6 +66,5 @@ async def process_data(project_id: str,process_request: ProcessRequest):
       return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
                             content={"message": ResponseType.PROCESSING_FAILED.value})
       
-  return JSONResponse(status_code=status.HTTP_200_OK,
-                      content={"message": ResponseType.PROCESSING_SUCCESSFULLY.value, "chunks": file_chunks})
+  return file_chunks
 
