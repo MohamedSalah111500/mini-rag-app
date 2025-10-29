@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter ,Depends,UploadFile,status
+from fastapi import FastAPI, APIRouter ,Depends,UploadFile,status,Request
 from fastapi.responses import JSONResponse
 import aiofiles
 import os
@@ -7,6 +7,8 @@ from controllers import DataController,ProjectController,ProcessController
 from helpers.config import Settings, get_settings
 from models.enums.ResponsesEnum import ResponseType
 from .schema import ProcessRequest
+from models.ProjectModel  import ProjectModel
+
 
 ProcessRequest
 logger = logging.getLogger("uvicorn.error")
@@ -18,9 +20,14 @@ data_router = APIRouter(
 
 
 @data_router.post("/upload/{project_id}")
-async def update_data(project_id: str,file: UploadFile, 
+async def update_data(request:Request, project_id: str,file: UploadFile, 
                       app_setting: Settings = Depends(get_settings)):
     
+    project_model = ProjectModel(
+        db_client=request.app.db_client
+    )
+    project = await project_model.get_project_or_create_one(project_id=project_id)
+
     is_valid = data_controller.validate_uploaded_file(file=file)
     if(is_valid == False):
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
@@ -44,7 +51,8 @@ async def update_data(project_id: str,file: UploadFile,
         
     return JSONResponse(status_code=status.HTTP_200_OK,
                         content={"message": ResponseType.FILE_UPLOADED_SUCCESSFULLY.value,
-                                 "file_id":file_id
+                                 "file_id":file_id,
+                                 "project_id":str(project._id)
                                  }
                         )
 
