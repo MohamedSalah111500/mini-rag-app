@@ -22,7 +22,12 @@
 
 ## Install required packages  
 ```bash
-   $ pip install -r requirements 
+   $ pip install -r requirements.txt
+```
+
+## Run Project using uvicorn
+```bash
+   $ uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```
 ## Setup environments variables       
 ```bash

@@ -12,3 +12,6 @@ class BaseController:
         
     def generate_random_string(self, length=12):
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+
+    def clean_file_name(self, orig_file_name):
+        return ''.join(e for e in orig_file_name if e.isalnum())
